@@ -61,17 +61,17 @@ if st.session_state.page == 'input':
     st.header("🌍 Enter the coordinates of the location")
     col1, col2 = st.columns(2)
     with col1:
-        latitude = st.text_input("Latitude")
+        latitude = st.text_input("Latitude", placeholder="e.g., 40.1023")
     with col2:
-        longitude = st.text_input("Longitude")
+        longitude = st.text_input("Longitude", placeholder="e.g., -88.2275")
 
     # Area Input
     st.header("📏 Enter the dimensions of the area to be extracted")
     col3, col4 = st.columns(2)
     with col3:
-        length = st.text_input("Length")
+        length = st.text_input("Length (meters)", placeholder="e.g., 100000")
     with col4:
-        breadth = st.text_input("Width")
+        breadth = st.text_input("Width (meters)", placeholder="e.g., 100000")
 
     # Time Period Input
     st.header("📅 Enter the time period")
@@ -285,8 +285,15 @@ elif st.session_state.page == 'results':
         name='Extracted Image'
     ).add_to(m)
 
+    with open(all_images[img], "rb") as file:
+        btn = st.download_button(
+            label="Download image",
+            data=file,
+            file_name=os.path.basename(all_images[img]),
+            mime="image/tif",
+        )
     st_data = st_folium(m, width=600, height=600)
-
+    st.markdown("---")
 
     # Button to go back to the input page
     if st.button('🔙 Back to Input Page'):
